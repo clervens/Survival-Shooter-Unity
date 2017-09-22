@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour
     private Animator anim;
 	private GameObject player;
 	private PlayerHealth playerHealth;
-	//private EnemyHealth enemyHealth;
+	private EnemyHealth enemyHealth;
 	private bool playerInRange;
 	private float timer;
 
@@ -17,10 +17,9 @@ public class EnemyAttack : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag ("Player");
         playerHealth = player.GetComponent <PlayerHealth> ();
-        //enemyHealth = GetComponent<EnemyHealth>();
+        enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
     }
-
 
     void OnTriggerEnter (Collider other)
     {
@@ -29,8 +28,7 @@ public class EnemyAttack : MonoBehaviour
             playerInRange = true;
         }
     }
-
-
+		
     void OnTriggerExit (Collider other)
     {
         if(other.gameObject == player)
@@ -38,13 +36,12 @@ public class EnemyAttack : MonoBehaviour
             playerInRange = false;
         }
     }
-
-
+		
     void Update ()
     {
         timer += Time.deltaTime;
 
-        if(timer >= timeBetweenAttacks && playerInRange/* && enemyHealth.currentHealth > 0*/)
+        if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
         {
             Attack ();
         }
@@ -54,8 +51,7 @@ public class EnemyAttack : MonoBehaviour
             anim.SetTrigger ("PlayerDead");
         }
     }
-
-
+		
     void Attack ()
     {
         timer = 0f;
